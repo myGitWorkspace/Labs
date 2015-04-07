@@ -1,0 +1,31 @@
+1.
+запуск   buildlab3.xml
+
+
+javac -d ./build/classes -classpath ./src ./src/ua/kpi/pti/HelloWorld.java
+
+java -classpath ./build/classes/ua/kpi/pti/ HelloWorld
+
+java -XX:+PrintCompilation -classpath ./build/classes/ua/kpi/pti/ HelloWorld
+
+java -verbose:class -classpath ./build/classes/ua/kpi/pti/ HelloWorld
+
+2.
+
+javac -d ./build/classes -classpath ./src ./src/ua/kpi/pti/HelloWorld.java ./src/ua/kpi/pti/PrintHello.java
+
+java -classpath ./build/classes ua.kpi.pti.HelloWorld
+
+3.
+javac -d ./build/classes -classpath ./src ./src/ua/kpi/pti/HelloWorld.java ./src/ua/kpi/pti/pkg/PrintHello.java
+
+java -classpath ./build/classes ua.kpi.pti.HelloWorld
+
+4.
+jar cf PrintHello.jar ./ua/kpi/pti/pkg/PrintHello.class
+
+java -classpath ./lib/PrintHello.jar;./build/classes ua.kpi.pti.HelloWorld
+
+java -verbose:class  -classpath ./lib/PrintHello.jar;./build/classes ua.kpi.pti.HelloWorld
+
+javadoc -d ./docs ./src/ua/kpi/pti/HelloWorld.java

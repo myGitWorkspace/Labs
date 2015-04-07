@@ -1,0 +1,28 @@
+1.
+> java -version
+> echo %JAVA_HOME%
+
+2.
+javac -d ./build -classpath ./src ./src/Test1.java
+Test1.java 
+Название публичного класса должно соответствовать названию файла. Нужно забрать public доступ для класса TestAnother1
+
+Test2.java
+Неправильное название public класса. Нужно исправить на Test2 
+
+Test3.java
+Программа компилируется нормально, но нужно передавать параметром в метод main массив строк String[] а не одну строку
+
+Test4.java
+Программа компилируется нормально, но в объявлении функции main пропущенно ключевое слово static
+
+3.
+javac -d ./build/classes -classpath ./src ./src/PersonRunner.java ./src/Person.java
+
+java -classpath ./build PersonRunner
+
+java -XX:+PrintCompilation -classpath ./build PersonRunner
+
+java -verbose:class -classpath ./build PersonRunner
+
+javadoc -d ./docs ./src/Person.java
