@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<project name="lab3" basedir="." default="run">
+
+<target name="init">
+    <mkdir dir="JavaProjects/Lab3/src/ua/kpi/pti"/>
+    <mkdir dir="JavaProjects/Lab3/src/ua/kpi/pti/pkg"/>
+    <mkdir dir="JavaProjects/Lab3/build/classes/ua/kpi/pti"/>
+    <mkdir dir="JavaProjects/Lab3/build/classes/ua/kpi/pti/pkg"/>
+    <mkdir dir="JavaProjects/Lab3/lib"/>
+    <mkdir dir="JavaProjects/Lab3/docs"/>
+</target>
+
+</project>
