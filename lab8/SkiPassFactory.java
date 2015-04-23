@@ -23,6 +23,35 @@ public class SkiPassFactory {
 	private static final String SKI_PASS_ACCESS_LOG_ID_FILE_PREFIX = "SkiPass-id#";
 	private static final SkiPassFactory instance = new SkiPassFactory();
 	
+	public static enum CardsType {
+		BY_DAYS_ON_WEEKDAYS,
+		BY_TRIPS_ON_WEEKDAYS,
+		BY_DAYS_ON_WEEKEND,
+		BY_TRIPS_ON_WEEKEND,
+		FOR_SEASON
+	}
+	
+	public static enum TripsOrDaysNumber {
+		TRIPS_10(10),
+		TRIPS_20(20),
+		TRIPS_50(50),
+		TRIPS_100(100),
+		DAYS_HALF(1),
+		DAYS_1(1),
+		DAYS_2(2),
+		DAYS_5(5);
+		
+		private int numberOfTripsOrDays = 0;
+		
+		TripsOrDaysNumber(int numberOfTripsOrDays) {
+			this.numberOfTripsOrDays = numberOfTripsOrDays;
+		}
+		
+		public int getNumberOfTripsOrDays() {
+			return this.numberOfTripsOrDays;
+		}
+	}
+
 	private SkiPassFactory() {
 
 	}
@@ -31,9 +60,9 @@ public class SkiPassFactory {
 		return instance;
 	}
 	
-	public SkiPass produceSkiPass(int cardTypeId, int numberDaysOrTripsId) {
+	public SkiPass produceSkiPass(CardsType cardsType, TripsOrDaysNumber tripsOrDaysNumber) {
 		
-		if ( !cardTypeSignatureCheck(cardTypeId, numberDaysOrTripsId) )
+		if ( !cardTypeSignatureCheck(cardsType, tripsOrDaysNumber) )
 			return null;
 
 		int id = getIdForNewSkiPass();
@@ -42,24 +71,29 @@ public class SkiPassFactory {
 		
 		saveNewSkiPassIdToFile(id);
 		
-		switch (cardTypeId) {
-			case 1:
-				return new SkiPassByDaysOnWeekdays(id, expireDate, numberDaysOrTripsId);
-			case 2:
-				return new SkiPassByTripsOnWeekdays(id, expireDate, numberDaysOrTripsId);
-			case 3:
-				return new SkiPassByDaysOnWeekend(id, expireDate, numberDaysOrTripsId);
-			case 4:
-				return new SkiPassByTripsOnWeekdays(id, expireDate, numberDaysOrTripsId);
-			case 5:
+		switch (cardsType) {
+			case BY_DAYS_ON_WEEKDAYS:
+				return new SkiPassByDaysOnWeekdays(id, expireDate, tripsOrDaysNumber.ordinal()-4);
+			case BY_TRIPS_ON_WEEKDAYS:
+				return new SkiPassByTripsOnWeekdays(id, expireDate, tripsOrDaysNumber.ordinal());
+			case BY_DAYS_ON_WEEKEND:
+				return new SkiPassByDaysOnWeekend(id, expireDate, tripsOrDaysNumber.ordinal()-4);
+			case BY_TRIPS_ON_WEEKEND:
+				return new SkiPassByTripsOnWeekdays(id, expireDate, tripsOrDaysNumber.ordinal());
+			case FOR_SEASON:
 				return new SkiPassOnSeason(id, expireDate);
 		}
 				
 		return null;
 	}
 	
-	private boolean cardTypeSignatureCheck(int cardTypeId, int numberDaysOrTripsId) {
+	private boolean cardTypeSignatureCheck(CardsType cardsType, TripsOrDaysNumber tripsOrDaysNumber) {
 		
+		if (cardsType == SkiPassFactory.CardsType.BY_DAYS_ON_WEEKEND && tripsOrDaysNumber == SkiPassFactory.TripsOrDaysNumber.DAYS_5) {
+			System.out.println("Wrong days number!!! You can choose 0.5 or 1 or 2 days");
+			return false;
+		}
+		/*
 		if (cardTypeId <= 0 && cardTypeId >= 6) {
 			System.out.println("Wrong card type!!! Must be 1 or 2 or 3 or 4 or 5");
 			return false;
@@ -78,7 +112,7 @@ public class SkiPassFactory {
 				return false;
 			}
 		}
-		
+		*/
 		return true;
 	}
 	
