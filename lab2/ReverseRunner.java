@@ -1,7 +1,5 @@
 package labs.lab2;
 
-import java.util.Arrays;
-
 public class ReverseRunner {
 	
 	public static void main(String[] args) {
